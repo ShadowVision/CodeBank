@@ -11,7 +11,7 @@ public class TextMeshController : MonoBehaviour
 #endregion
    
 #region private members.
-    private TextMesh            m_textMesh              = null;
+    protected TextMesh            m_textMesh              = null;
     private float               m_lastMaxWidth          = 0.0f;
     private string              m_wrappedText           = "";
 #endregion
@@ -19,11 +19,11 @@ public class TextMeshController : MonoBehaviour
 #region getters/setters.
     public float TextWidth
     {
-        get{ return m_textMesh.renderer.bounds.extents.x*2.0f; }
+        get{ return m_textMesh.GetComponent<Renderer>().bounds.extents.x*2.0f; }
     }
     public float TextHeight
     {
-        get{ return m_textMesh.renderer.bounds.extents.y*2.0f; }
+        get{ return m_textMesh.GetComponent<Renderer>().bounds.extents.y*2.0f; }
     }
     public float MaxWidth
     {
@@ -36,7 +36,7 @@ public class TextMeshController : MonoBehaviour
     {
         m_textMesh = GetComponent<TextMesh>();
        
-        bool shouldDisable = m_disableWhilePlaying || !(Application.isEditor && !Application.isPlaying);
+		bool shouldDisable = m_disableWhilePlaying;//  !(Application.isEditor  !Application.isPlaying);
         this.enabled = !shouldDisable;
     }
    
@@ -50,7 +50,7 @@ public class TextMeshController : MonoBehaviour
  
     public void Update()
     {
-        if( m_textMesh.text != m_wrappedText || MaxWidth != m_lastMaxWidth )
+        if(m_textMesh != null && ( m_textMesh.text != m_wrappedText || MaxWidth != m_lastMaxWidth ))
         {
             float widthSum = 0.0f;
             m_wrappedText = "";
@@ -114,7 +114,7 @@ public class TextMeshController : MonoBehaviour
     private float GetSpaceWidth()
     {
         m_textMesh.text = "x x";
-        float totalWidth = m_textMesh.renderer.bounds.extents.x * 2.0f;
+        float totalWidth = m_textMesh.GetComponent<Renderer>().bounds.extents.x * 2.0f;
         totalWidth -= GetWordWidth( "xx" );
         return totalWidth;
     }
@@ -122,7 +122,7 @@ public class TextMeshController : MonoBehaviour
     private float GetWordWidth( string word )
     {
         m_textMesh.text = word;
-        return m_textMesh.renderer.bounds.extents.x * 2.0f;
+        return m_textMesh.GetComponent<Renderer>().bounds.extents.x * 2.0f;
     }
    
     private Vector3 GetInitPosition()
@@ -171,4 +171,11 @@ public class TextMeshController : MonoBehaviour
         return new Vector3( x, y, transform.position.z );
     }
 #endregion
+
+	public void updateWidth(float newWidth, bool update=true){
+		m_maxWidth = newWidth;
+		if(update){
+			Update ();
+		}
+	}
 }

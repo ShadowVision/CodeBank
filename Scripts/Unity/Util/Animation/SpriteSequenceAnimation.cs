@@ -10,7 +10,7 @@ public class SpriteSequenceAnimation : MonoBehaviour {
 	private Sprite[] animationSequence;
 	private float delayBetweenFramesInSeconds = .1f;
 	private int frameIndex = 0;
-
+	
 	public delegate void OnAnimationEnd();
 	public OnAnimationEnd onAnimationEnd;
 	// Use this for initialization
@@ -35,9 +35,9 @@ public class SpriteSequenceAnimation : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		
 	}
-
+	
 	public void playAnimation(){
 		pauseAnimation();
 		if(animationSequence.Length > 0){
@@ -45,7 +45,7 @@ public class SpriteSequenceAnimation : MonoBehaviour {
 			InvokeRepeating("tickAnimation", delayBetweenFramesInSeconds, delayBetweenFramesInSeconds);
 		}
 	}
-
+	
 	public void stopAnimation(){
 		CancelInvoke("tickAnimation");
 		frameIndex = 0;

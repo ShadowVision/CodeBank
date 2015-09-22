@@ -2,12 +2,13 @@
 using System.Collections;
 
 public class KillSelf : MonoBehaviour {
-	public float timeTillDeathInSeconds = 1;
+	public float timeUntilDeathInSeconds = 1f;
+
 	// Use this for initialization
 	void Start () {
-		Invoke ("die",timeTillDeathInSeconds);
+		Invoke ("die", timeUntilDeathInSeconds);
 	}
 	private void die(){
-		Destroy(gameObject);
+		Destroy (gameObject);
 	}
 }
